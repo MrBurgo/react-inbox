@@ -9,7 +9,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: Seed
+      messages: Seed,
+      toolbar: ''
     }
   }
 
@@ -22,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Toolbar />
+        <Toolbar selected={this.state.toolbar} messages={this.state.messages} />
         <MessageList messages={this.state.messages} onChange={this.onChange} newState={this.newState} />
       </div>
     )

@@ -1,6 +1,49 @@
 import React from 'react'
 
+function AllSelected(props) {
+  let div
+  if (props.checked() == 'All') {
+    div = <i className="fa fa-check-square-o" />
+  } else if (props.checked() == 'Some') {
+    div = <i className="fa fa-minus-square-o" />
+  } else {
+    div = <i className="fa fa-square-o" />
+  }
+  return div
+}
+
 export default class Toolbar extends React.Component {
+
+  selectCheck = (element) => {
+    return element == true
+  }
+
+  checked = () => {
+    const arr = this.props.messages.map(x => x.selected)
+    let selectedAmount
+    if (arr.every(this.selectCheck)) {
+      selectedAmount = 'All'
+    } else if (arr.some(this.selectCheck)) {
+      selectedAmount = 'Some'
+    } else {
+      selectedAmount = 'None'
+    }
+    return selectedAmount
+  }
+
+  // AllSelected = (props) => {
+  //   const arr = this.props.messages.map(x => x.selected)
+  //   let div
+  //   if (props.check == 'All') {
+  //     div = <i className="fa fa-check-square-o" />
+  //   } else if (props.check = 'Some') {
+  //     div = <i className="fa fa-minus-square-o" />
+  //   } else {
+  //     div = <i className="fa fa-square-o" />
+  //   }
+  //   return div
+  // }
+
   render() {
     return (
       <div className="row toolbar">
@@ -10,8 +53,9 @@ export default class Toolbar extends React.Component {
             unread messages
           </p>
 
-          <button className="btn btn-default">
-            <i className="fa fa-check-square-o" />
+          <button className="btn btn-default" onClick={this.isSelected}>
+            <AllSelected checked={this.checked} />
+            {/* <i className={ this.isSelected ? this.allSelected ? "fa fa-check-square-o" : "fa fa-minus-square-o" : "fa fa-square-o"} /> */}
           </button>
 
           <button className="btn btn-default">
