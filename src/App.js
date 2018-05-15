@@ -3,13 +3,27 @@ import logo from './logo.svg'
 import './App.css'
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
+import Seed from './seed.json'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      messages: Seed
+    }
+  }
+
+  newState = (data) => {
+    this.setState({
+      messages: data
+    })
+  }
+
   render() {
     return (
       <div className="container">
         <Toolbar />
-        <MessageList />
+        <MessageList messages={this.state.messages} onChange={this.onChange} newState={this.newState} />
       </div>
     )
   }
