@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Toolbar selected={this.state.toolbar} messages={this.state.messages} />
+        <Toolbar selected={this.state.toolbar} messages={this.state.messages} newState={this.newState} />
         <MessageList messages={this.state.messages} onChange={this.onChange} newState={this.newState} />
       </div>
     )

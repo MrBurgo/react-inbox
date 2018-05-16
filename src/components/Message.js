@@ -18,8 +18,7 @@ export default class Message extends React.Component {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              {/* { selected ? <input id={props.data.id} type="checkbox" checked="checked" onChange={props.onChange} /> : <input id={props.data.id} type="checkbox" onChange={props.onChange} />} */}
-              <input id={this.props.message.id} type="checkbox" onChange={this.onChange} defaultChecked={!!this.props.message.selected} />
+              <input id={this.props.message.id} type="checkbox" onChange={this.onChange} selected={this.props.message.selected} checked={this.props.message.selected} />
             </div>
             <div className="col-xs-2">
               <i className="star fa fa-star-o" />
@@ -35,30 +34,3 @@ export default class Message extends React.Component {
     )
   }
 }
-
-// const Message = (props) => {
-//   let selected = props.data.selected
-//   console.log(selected)
-//   return (
-//     <div className={selected ? "row message unread selected" : "row message unread"}>
-//       <div className="col-xs-1">
-//         <div className="row">
-//           <div className="col-xs-2">
-//             {/* { selected ? <input id={props.data.id} type="checkbox" checked="checked" onChange={props.onChange} /> : <input id={props.data.id} type="checkbox" onChange={props.onChange} />} */}
-//             <input id={props.data.id} type="checkbox" onChange={props.onChange} defaultChecked={!!props.data.selected} />
-//           </div>
-//           <div className="col-xs-2">
-//             <i className="star fa fa-star-o" />
-//           </div>
-//         </div>
-//       </div>
-//       <div className="col-xs-11">
-//         <a href="#">
-//           { props.data.subject }
-//         </a>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Message
