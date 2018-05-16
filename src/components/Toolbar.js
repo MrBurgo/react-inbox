@@ -33,7 +33,7 @@ export default class Toolbar extends React.Component {
 
   onClick = () => {
     let messages = this.props.messages
-    if (this.checked() == 'All') {
+    if (this.checked() === 'All') {
       messages.forEach(x => x.selected = false)
     } else {
       messages.forEach(x => x.selected = true)
