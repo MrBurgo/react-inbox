@@ -1,5 +1,6 @@
 import React from 'react'
 
+// SET CHECKBOX TO SPECIFIC VISUAL BASED ON NUMBER OF CHECKED MESSAGES
 function AllSelected(props) {
   let div
   if (props.checked() == 'All') {
@@ -18,6 +19,7 @@ export default class Toolbar extends React.Component {
     return element == true
   }
 
+  // CHECK IF NONE, SOME, OR ALL OF MESSAGES ARE SELECTED
   checked = () => {
     const arr = this.props.messages.map(x => x.selected)
     let selectedAmount
@@ -31,6 +33,7 @@ export default class Toolbar extends React.Component {
     return selectedAmount
   }
 
+  // SELECT/UNSELECT MESSAGE ON CHECKBOX CLICK THEN UPDATE STATE
   onClick = () => {
     let messages = this.props.messages
     if (this.checked() === 'All') {
@@ -39,6 +42,21 @@ export default class Toolbar extends React.Component {
       messages.forEach(x => x.selected = true)
     }
     this.props.newState(messages)
+  }
+
+  // CHECK IF ANY BOXES ARE SELECTED. IF SO, ENABLE READ/UNREAD BUTTONS
+  disabled = (label) => {
+    let div
+    if (this.checked() === 'None') {
+      div = <button className="btn btn-default" disabled >
+              { label }
+            </button>
+    } else {
+      div = <button className="btn btn-default">
+              { label }
+            </button>
+    }
+    return div
   }
 
   render() {
@@ -54,13 +72,9 @@ export default class Toolbar extends React.Component {
             <AllSelected checked={this.checked} />
           </button>
 
-          <button className="btn btn-default">
-            Mark As Read
-          </button>
+          { this.disabled('Mark As Read') }
 
-          <button className="btn btn-default">
-            Mark As Unread
-          </button>
+          { this.disabled('Mark as Unread') }
 
           <select className="form-control label-select">
             <option>Apply label</option>
