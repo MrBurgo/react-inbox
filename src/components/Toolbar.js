@@ -13,6 +13,7 @@ function AllSelected(props) {
   return div
 }
 
+// TOOLBAR COMPONENT
 export default class Toolbar extends React.Component {
 
   selectCheck = (element) => {
@@ -44,6 +45,34 @@ export default class Toolbar extends React.Component {
     this.props.newState(messages)
   }
 
+  // MARK SELECTED MESSAGES AS READ
+  markRead = () => {
+    let messages = this.props.messages
+    let selected = messages.filter(x => x.selected === true)
+    messages.forEach(x => {
+      for (let i = 0; i < selected.length; i++) {
+        if (x.id === selected[i].id) {
+          messages[x.id - 1].read = true
+        }
+      }
+    })
+    this.props.newState(messages)
+  }
+
+  // MARK SELECTED MESSAGES AS UNREAD
+  markUnread = () => {
+    let messages = this.props.messages
+    let selected = messages.filter(x => x.selected === true)
+    messages.forEach(x => {
+      for (let i = 0; i < selected.length; i++) {
+        if (x.id === selected[i].id) {
+          messages[x.id - 1].read = false
+        }
+      }
+    })
+    this.props.newState(messages)
+  }
+
   // CHECK IF ANY BOXES ARE SELECTED. IF SO, ENABLE READ/UNREAD BUTTONS
   disabled = (label) => {
     let div
@@ -52,12 +81,19 @@ export default class Toolbar extends React.Component {
               { label }
             </button>
     } else {
-      div = <button className="btn btn-default">
-              { label }
-            </button>
+      if (label === 'Mark As Read') {
+        div = <button className="btn btn-default" onClick={this.markRead} >
+                { label }
+              </button>
+      } else {
+        div = <button className="btn btn-default" onClick={this.markUnread} >
+                { label }
+              </button>
+      }
     }
     return div
   }
+
 
   render() {
     return (
