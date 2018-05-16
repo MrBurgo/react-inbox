@@ -16,6 +16,7 @@ function AllSelected(props) {
 // TOOLBAR COMPONENT
 export default class Toolbar extends React.Component {
 
+  // CHECK IF ELEMENT IS SELECTED
   selectCheck = (element) => {
     return element === true
   }
@@ -78,13 +79,24 @@ export default class Toolbar extends React.Component {
     return div
   }
 
+  unread = () => {
+    const messages = this.props.messages
+    let count = 0
+    messages.forEach(x => {
+      if (x.read === false) {
+        count++
+      }
+    })
+    return count
+  }
+
 
   render() {
     return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
+            <span className="badge badge">{ this.unread() }</span>
             unread messages
           </p>
 
