@@ -45,28 +45,18 @@ export default class Toolbar extends React.Component {
     this.props.newState(messages)
   }
 
-  // MARK SELECTED MESSAGES AS READ
-  markRead = () => {
+  // MARK SELECTED MESSAGES AS READ/UNREAD
+  readStatus = (e) => {
     let messages = this.props.messages
     let selected = messages.filter(x => x.selected === true)
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
         if (x.id === selected[i].id) {
-          messages[x.id - 1].read = true
-        }
-      }
-    })
-    this.props.newState(messages)
-  }
-
-  // MARK SELECTED MESSAGES AS UNREAD
-  markUnread = () => {
-    let messages = this.props.messages
-    let selected = messages.filter(x => x.selected === true)
-    messages.forEach(x => {
-      for (let i = 0; i < selected.length; i++) {
-        if (x.id === selected[i].id) {
-          messages[x.id - 1].read = false
+          if (e.target.innerText === 'Mark As Read') {
+            messages[x.id - 1].read = true
+          } else {
+            messages[x.id - 1].read = false
+          }
         }
       }
     })
@@ -81,15 +71,9 @@ export default class Toolbar extends React.Component {
               { label }
             </button>
     } else {
-      if (label === 'Mark As Read') {
-        div = <button className="btn btn-default" onClick={this.markRead} >
-                { label }
-              </button>
-      } else {
-        div = <button className="btn btn-default" onClick={this.markUnread} >
-                { label }
-              </button>
-      }
+      div = <button className="btn btn-default" onClick={this.readStatus} >
+              { label }
+            </button>
     }
     return div
   }
