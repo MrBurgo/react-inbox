@@ -3,9 +3,9 @@ import React from 'react'
 // SET CHECKBOX TO SPECIFIC VISUAL BASED ON NUMBER OF CHECKED MESSAGES
 function AllSelected(props) {
   let div
-  if (props.checked() == 'All') {
+  if (props.checked() === 'All') {
     div = <i className="fa fa-check-square-o" />
-  } else if (props.checked() == 'Some') {
+  } else if (props.checked() === 'Some') {
     div = <i className="fa fa-minus-square-o" />
   } else {
     div = <i className="fa fa-square-o" />
@@ -16,7 +16,7 @@ function AllSelected(props) {
 export default class Toolbar extends React.Component {
 
   selectCheck = (element) => {
-    return element == true
+    return element === true
   }
 
   // CHECK IF NONE, SOME, OR ALL OF MESSAGES ARE SELECTED
@@ -67,6 +67,10 @@ export default class Toolbar extends React.Component {
             <span className="badge badge">2</span>
             unread messages
           </p>
+
+          <a className="btn btn-danger">
+            <i className="fa fa-plus"></i>
+          </a>
 
           <button className="btn btn-default" onClick={this.onClick}>
             <AllSelected checked={this.checked} />
