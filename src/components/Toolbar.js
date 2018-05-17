@@ -79,6 +79,7 @@ export default class Toolbar extends React.Component {
     return div
   }
 
+  // COUNT NUMBER OF UNREAD MESSAGES
   unread = () => {
     const messages = this.props.messages
     let count = 0
@@ -88,6 +89,51 @@ export default class Toolbar extends React.Component {
       }
     })
     return count
+  }
+
+  // ADD NEW LABEL TO SELECTED
+  newLabel = (e) => {
+    let messages = this.props.messages
+    let selected = messages.filter(x => x.selected === true)
+    messages.forEach(x => {
+      for (let i = 0; i < selected.length; i++) {
+        if (x.id === selected[i].id) {
+          if (!selected[i].labels.includes(e.target.value) && e.target.value !== 'Apply label') {
+            messages[x.id - 1].labels.push(e.target.value)
+          }
+        }
+      }
+    })
+    this.props.newState(messages)
+  }
+
+  // REMOVE LABEL FROM SELECTED MESSAGES
+  removeLabel = (e) => {
+    let messages = this.props.messages
+    let selected = messages.filter(x => x.selected === true)
+    messages.forEach(x => {
+      for (let i = 0; i < selected.length; i++) {
+        if (x.id === selected[i].id) {
+          if (selected[i].labels.includes(e.target.value) && e.target.value !== 'Apply label') {
+            messages[x.id - 1].labels = messages[x.id - 1].labels.filter(x => x !== e.target.value)
+            console.log(messages[x.id - 1].labels)
+          }
+        }
+      }
+    })
+    this.props.newState(messages)
+  }
+
+  // DELETE ANY SELECTED MESSAGES
+  deleteMessage = () => {
+    let messages = this.props.messages
+    let selected = messages.filter(x => x.selected === true)
+    messages.forEach(x => {
+      for (let i = 0; i < selected.length; i++) {
+        messages = messages.filter(x => x.id !== selected[i].id)
+      }
+    })
+    this.props.newState(messages)
   }
 
 
@@ -112,21 +158,21 @@ export default class Toolbar extends React.Component {
 
           { this.disabled('Mark as Unread') }
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" onChange={this.newLabel}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select">
+          <select className="form-control label-select" onChange={this.removeLabel}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default">
+          <button className="btn btn-default" onClick={this.deleteMessage}>
             <i className="fa fa-trash-o" />
           </button>
         </div>

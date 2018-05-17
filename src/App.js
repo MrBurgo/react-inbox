@@ -15,7 +15,8 @@ class App extends Component {
 
   newState = (data) => {
     this.setState({
-      messages: data
+      messages: data,
+      ...this.state.toolbar
     })
   }
 

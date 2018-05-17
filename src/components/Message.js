@@ -58,7 +58,7 @@ export default class Message extends React.Component {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              <input id={this.props.message.id} type="checkbox" onChange={this.onChange} selected={this.props.message.selected} checked={this.props.message.selected} />
+              <input type="checkbox" onChange={this.onChange} checked={this.props.message.selected} />
             </div>
             <div className="col-xs-2">
               <i className={ this.props.message.starred ? "star fa fa-star" : "star fa fa-star-o"} onClick={this.starSelect} />
