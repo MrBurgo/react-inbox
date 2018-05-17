@@ -8,15 +8,13 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: Seed,
-      toolbar: ''
+      messages: Seed
     }
   }
 
   newState = (data) => {
     this.setState({
-      messages: data,
-      ...this.state.toolbar
+      messages: data
     })
   }
 
