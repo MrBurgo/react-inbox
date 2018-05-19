@@ -116,7 +116,6 @@ export default class Toolbar extends React.Component {
         if (x.id === selected[i].id) {
           if (selected[i].labels.includes(e.target.value) && e.target.value !== 'Apply label') {
             messages[x.id - 1].labels = messages[x.id - 1].labels.filter(x => x !== e.target.value)
-            console.log(messages[x.id - 1].labels)
           }
         }
       }
@@ -136,6 +135,15 @@ export default class Toolbar extends React.Component {
     this.props.newState(messages)
   }
 
+  // HIDE/SHOW FORM ON CLICK
+  toggleForm = () => {
+    if (this.props.formHidden) {
+      return this.props.hideForm('')
+    } else {
+      return this.props.hideForm('hidden')
+    }
+  }
+
 
   render() {
     return (
@@ -146,7 +154,7 @@ export default class Toolbar extends React.Component {
             unread messages
           </p>
 
-          <a className="btn btn-danger">
+          <a className="btn btn-danger" onClick={this.toggleForm}>
             <i className="fa fa-plus"></i>
           </a>
 
