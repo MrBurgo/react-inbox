@@ -52,6 +52,16 @@ export default class Message extends React.Component {
     return read
   }
 
+  // ON MESSAGE CLICK, MARK AS READ
+  readStatus = (e) => {
+    let messages = this.props.messages
+    let message = this.props.message
+    if (e.target.parentNode.parentNode.classList.value.includes('unread')) {
+      messages[message.id - 1].read = true
+    }
+    this.props.newState(messages)
+  }
+
   render() {
     return (
       <div className={this.read()}>
@@ -67,7 +77,7 @@ export default class Message extends React.Component {
         </div>
         <div className="col-xs-11">
           { this.generateLabels() }
-          <a href="#">
+          <a href="#" onClick={this.readStatus}>
             { this.props.message.subject }
           </a>
         </div>
