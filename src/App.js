@@ -2,15 +2,29 @@ import React, { Component } from 'react'
 import './App.css'
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
-import Seed from './seed.json'
 import NewMessage from './components/NewMessage'
 
+const API = 'http://localhost:8082/api/messages'
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      messages: Seed,
+      messages: [],
       formHidden: 'hidden'
+    }
+  }
+
+  async componentDidMount() {
+    const response = await fetch(API)
+    if (response.status === 200) {
+      const json = await response.json()
+      const messages = json._embedded.messages
+      this.setState({
+        ...this.state.formHidden,
+        messages
+      })
+    } else {
+      console.log('Couldn\'t Fetch JSON: ', response.status)
     }
   }
 
