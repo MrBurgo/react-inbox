@@ -3,8 +3,8 @@ import './App.css'
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
 import NewMessage from './components/NewMessage'
-
 const API = 'http://localhost:8082/api/messages'
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -14,6 +14,7 @@ class App extends Component {
     }
   }
 
+  // GET MESSAGES FROM API CALL AND SET STATE
   async componentDidMount() {
     const response = await fetch(API)
     if (response.status === 200) {
@@ -28,6 +29,7 @@ class App extends Component {
     }
   }
 
+  // SET STATE AND SEND INFO TO API WHEN USER CHANGE OCCURS
   newState = (data) => {
     this.setState({
       ...this.state.formHidden,
@@ -35,13 +37,29 @@ class App extends Component {
     })
   }
 
-  newMessage = (data) => {
-    this.setState({
-      ...this.state.formHidden,
-      messages: [...this.state.messages, data]
+  // SEND A NEW MESSAGE TO STATE AND API WHEN USER ADDS THROUGH FORM
+  newMessage = async (data) => {
+    const response = await fetch(API, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     })
+
+    if (response.status === 200) {
+      const json = await response.json()
+      this.setState({
+        ...this.state.formHidden,
+        messages: [...this.state.messages, json]
+      })
+    } else {
+      console.log('Couldn\'t Post New Message: ', response.status)
+    }
   }
 
+  // TOGGLES FORM HIDDEN STATE WHEN USER CLICKS RED PLUS OR SEND ON FORM
   hideForm = (boolean) => {
     this.setState({
       ...this.state.messages,
