@@ -49,14 +49,16 @@ export default class Toolbar extends React.Component {
   // MARK SELECTED MESSAGES AS READ/UNREAD
   readStatus = (e) => {
     let messages = this.props.messages
+    let index
     let selected = messages.filter(x => x.selected === true)
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
+        index = messages.map(message => message.id).indexOf(selected[i].id)
         if (x.id === selected[i].id) {
           if (e.target.innerText === 'Mark As Read') {
-            messages[x.id - 1].read = true
+            messages[index].read = true
           } else {
-            messages[x.id - 1].read = false
+            messages[index].read = false
           }
         }
       }
@@ -114,7 +116,7 @@ export default class Toolbar extends React.Component {
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
         if (x.id === selected[i].id) {
-          if (selected[i].labels.includes(e.target.value) && e.target.value !== 'Apply label') {
+          if (selected[i].labels.includes(e.target.value) && e.target.value !== 'Remove label') {
             messages[x.id - 1].labels = messages[x.id - 1].labels.filter(x => x !== e.target.value)
           }
         }
@@ -127,12 +129,16 @@ export default class Toolbar extends React.Component {
   deleteMessage = () => {
     let messages = this.props.messages
     let selected = messages.filter(x => x.selected === true)
+    let selectedIds = selected.map(x => x.id)
+    let method = 'delete'
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
         messages = messages.filter(x => x.id !== selected[i].id)
       }
     })
-    this.props.newState(messages)
+
+    this.props.patchMessage(messages, method, selectedIds)
+    // this.props.newState(messages)
   }
 
   // HIDE/SHOW FORM ON CLICK

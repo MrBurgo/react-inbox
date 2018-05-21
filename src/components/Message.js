@@ -4,24 +4,28 @@ export default class Message extends React.Component {
 
   // CHANGE CHECKED/UNCHECKED ON BOX CLICK
   onChange = (e) => {
-    let newData = this.props.messages
+    let messages = this.props.messages
+    let message = this.props.message
+    let index = messages.map(x => x.id).indexOf(message.id)
     if (this.props.message.selected === true) {
-      newData[this.props.message.id - 1].selected = false
+      messages[index].selected = false
     } else {
-      newData[this.props.message.id - 1].selected = true
+      messages[index].selected = true
     }
-    this.props.newState(newData)
+    this.props.newState(messages)
   }
 
   // FAVOIRTE/UNFAVORITE MESSAGE ON STAR CLICK
   starSelect = (e) => {
-    let newData = this.props.messages
+    let messages = this.props.messages
+    let message = this.props.message
+    let index = messages.map(x => x.id).indexOf(message.id)
     if (this.props.message.starred === true) {
-      newData[this.props.message.id - 1].starred = false
+      messages[index].starred = false
     } else {
-      newData[this.props.message.id - 1].starred = true
+      messages[index].starred = true
     }
-    this.props.newState(newData)
+    this.props.newState(messages)
   }
 
   // GENERATE LABELS FOR EACH MESSAGE
@@ -56,8 +60,9 @@ export default class Message extends React.Component {
   readStatus = (e) => {
     let messages = this.props.messages
     let message = this.props.message
+    let index = messages.map(x => x.id).indexOf(message.id)
     if (e.target.parentNode.parentNode.classList.value.includes('unread')) {
-      messages[message.id - 1].read = true
+      messages[index].read = true
     }
     this.props.newState(messages)
   }

@@ -59,6 +59,30 @@ class App extends Component {
     }
   }
 
+  // UPDATE/DELETE A MESSAGE ON CLICK OF TRASH CAN
+  patchMessage = async (data, method, ids, boolean) => {
+    let obj = {
+      messageIds: ids,
+      command: method,
+      method: boolean
+    }
+    console.log(obj)
+    const response = await fetch(API, {
+      method: 'PATCH',
+      body: JSON.stringify(obj),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    if (response.status === 200) {
+      this.setState({
+        ...this.state.formhidden,
+        messages: data
+      })
+    }
+  }
+
   // TOGGLES FORM HIDDEN STATE WHEN USER CLICKS RED PLUS OR SEND ON FORM
   hideForm = (boolean) => {
     this.setState({
@@ -70,9 +94,25 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Toolbar selected={this.state.toolbar} messages={this.state.messages} newState={this.newState} hideForm={this.hideForm} formHidden={this.state.formHidden} />
-        <NewMessage newMessage={this.newMessage} formHidden={this.state.formHidden} messages={this.state.messages} hideForm={this.hideForm} />
-        <MessageList messages={this.state.messages} onChange={this.onChange} newState={this.newState} />
+        <Toolbar
+          selected={this.state.toolbar}
+          messages={this.state.messages}
+          newState={this.newState}
+          hideForm={this.hideForm}
+          formHidden={this.state.formHidden}
+          patchMessage={this.patchMessage}
+        />
+        <NewMessage
+          newMessage={this.newMessage}
+          formHidden={this.state.formHidden}
+          messages={this.state.messages}
+          hideForm={this.hideForm}
+        />
+        <MessageList
+          messages={this.state.messages}
+          onChange={this.onChange}
+          newState={this.newState}
+        />
       </div>
     )
   }
