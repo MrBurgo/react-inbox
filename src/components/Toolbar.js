@@ -49,21 +49,25 @@ export default class Toolbar extends React.Component {
   // MARK SELECTED MESSAGES AS READ/UNREAD
   readStatus = (e) => {
     let messages = this.props.messages
-    let index
     let selected = messages.filter(x => x.selected === true)
+    const selectedIds = selected.map(x => x.id)
+    let index
+    let boolean
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
         index = messages.map(message => message.id).indexOf(selected[i].id)
         if (x.id === selected[i].id) {
           if (e.target.innerText === 'Mark As Read') {
             messages[index].read = true
+            boolean = true
           } else {
             messages[index].read = false
+            boolean = false
           }
         }
       }
     })
-    this.props.newState(messages)
+    this.props.patchMessage(messages, 'read', selectedIds, 'read', boolean)
   }
 
   // CHECK IF ANY BOXES ARE SELECTED. IF SO, ENABLE READ/UNREAD BUTTONS
@@ -97,47 +101,56 @@ export default class Toolbar extends React.Component {
   newLabel = (e) => {
     let messages = this.props.messages
     let selected = messages.filter(x => x.selected === true)
+    const selectedIds = selected.map(x => x.id)
+    const value = e.target.value
+    let index
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
+        index = messages.map(message => message.id).indexOf(selected[i].id)
         if (x.id === selected[i].id) {
           if (!selected[i].labels.includes(e.target.value) && e.target.value !== 'Apply label') {
-            messages[x.id - 1].labels.push(e.target.value)
+            messages[index].labels.push(e.target.value)
           }
         }
       }
     })
-    this.props.newState(messages)
+    if (value !== 'Apply label') {
+      this.props.patchMessage(messages, 'addLabel', selectedIds, 'label', value)
+    }
   }
 
   // REMOVE LABEL FROM SELECTED MESSAGES
   removeLabel = (e) => {
     let messages = this.props.messages
     let selected = messages.filter(x => x.selected === true)
+    const selectedIds = selected.map(x => x.id)
+    const value = e.target.value
+    let index
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
+        index = messages.map(message => message.id).indexOf(selected[i].id)
         if (x.id === selected[i].id) {
           if (selected[i].labels.includes(e.target.value) && e.target.value !== 'Remove label') {
-            messages[x.id - 1].labels = messages[x.id - 1].labels.filter(x => x !== e.target.value)
+            messages[index].labels = messages[index].labels.filter(x => x !== e.target.value)
           }
         }
       }
     })
-    this.props.newState(messages)
+    this.props.patchMessage(messages, 'removeLabel', selectedIds, 'label', value)
   }
 
   // DELETE ANY SELECTED MESSAGES
   deleteMessage = () => {
     let messages = this.props.messages
-    let selected = messages.filter(x => x.selected === true)
-    let selectedIds = selected.map(x => x.id)
-    let method = 'delete'
+    const selected = messages.filter(x => x.selected === true)
+    const selectedIds = selected.map(x => x.id)
     messages.forEach(x => {
       for (let i = 0; i < selected.length; i++) {
         messages = messages.filter(x => x.id !== selected[i].id)
       }
     })
 
-    this.props.patchMessage(messages, method, selectedIds)
+    this.props.patchMessage(messages, 'delete', selectedIds)
     // this.props.newState(messages)
   }
 

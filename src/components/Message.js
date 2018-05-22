@@ -20,12 +20,15 @@ export default class Message extends React.Component {
     let messages = this.props.messages
     let message = this.props.message
     let index = messages.map(x => x.id).indexOf(message.id)
+    let boolean
     if (this.props.message.starred === true) {
       messages[index].starred = false
+      boolean = false
     } else {
       messages[index].starred = true
+      boolean = true
     }
-    this.props.newState(messages)
+    this.props.patchMessage(messages, 'star', [message.id], 'star', boolean)
   }
 
   // GENERATE LABELS FOR EACH MESSAGE
@@ -61,10 +64,12 @@ export default class Message extends React.Component {
     let messages = this.props.messages
     let message = this.props.message
     let index = messages.map(x => x.id).indexOf(message.id)
+    let boolean
     if (e.target.parentNode.parentNode.classList.value.includes('unread')) {
       messages[index].read = true
+      boolean = true
     }
-    this.props.newState(messages)
+    this.props.patchMessage(messages, 'read', [message.id], 'read', boolean)
   }
 
   render() {

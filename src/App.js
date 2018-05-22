@@ -60,11 +60,11 @@ class App extends Component {
   }
 
   // UPDATE/DELETE A MESSAGE ON CLICK OF TRASH CAN
-  patchMessage = async (data, method, ids, boolean) => {
+  patchMessage = async (data, method, ids, key, value) => {
     let obj = {
       messageIds: ids,
       command: method,
-      method: boolean
+      [key]: value
     }
     console.log(obj)
     const response = await fetch(API, {
@@ -112,6 +112,7 @@ class App extends Component {
           messages={this.state.messages}
           onChange={this.onChange}
           newState={this.newState}
+          patchMessage={this.patchMessage}
         />
       </div>
     )
