@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 // SET CHECKBOX TO SPECIFIC VISUAL BASED ON NUMBER OF CHECKED MESSAGES
 function AllSelected(props) {
@@ -173,9 +174,19 @@ export default class Toolbar extends React.Component {
             unread messages
           </p>
 
-          <a className="btn btn-danger" onClick={this.toggleForm}>
-            <i className="fa fa-plus"></i>
-          </a>
+          { this.props.formHidden ?
+            <Link to='/compose'>
+              <button className="btn btn-danger" onClick={this.toggleForm}>
+                <i className="fa fa-plus"></i>
+              </button>
+            </Link>
+            :
+            <Link to='/'>
+              <button className="btn btn-danger" onClick={this.toggleForm}>
+                <i className="fa fa-minus"></i>
+              </button>
+            </Link>
+          }
 
           <button className="btn btn-default" onClick={this.onClick}>
             <AllSelected checked={this.checked} />
