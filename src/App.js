@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import './App.css'
 import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
@@ -13,17 +12,6 @@ class App extends Component {
       messages: [],
       formHidden: 'hidden'
     }
-  }
-
-  // ROUTER FOR COMPONENETS
-  router = () => {
-    return (
-      <Router>
-        <div>
-          <Route path="/compose" component={NewMessage}></Route>
-        </div>
-      </Router>
-    )
   }
 
   // GET MESSAGES FROM API CALL AND SET STATE
@@ -104,30 +92,28 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="container">
-          <Toolbar
-            selected={this.state.toolbar}
-            messages={this.state.messages}
-            newState={this.newState}
-            hideForm={this.hideForm}
-            formHidden={this.state.formHidden}
-            patchMessage={this.patchMessage}
-          />
-          <NewMessage
-            newMessage={this.newMessage}
-            formHidden={this.state.formHidden}
-            messages={this.state.messages}
-            hideForm={this.hideForm}
-          />
-          <MessageList
-            messages={this.state.messages}
-            onChange={this.onChange}
-            newState={this.newState}
-            patchMessage={this.patchMessage}
-          />
-        </div>
-      </Router>
+      <div className="container">
+        <Toolbar
+          selected={this.state.toolbar}
+          messages={this.state.messages}
+          newState={this.newState}
+          hideForm={this.hideForm}
+          formHidden={this.state.formHidden}
+          patchMessage={this.patchMessage}
+        />
+        <NewMessage
+          newMessage={this.newMessage}
+          formHidden={this.state.formHidden}
+          messages={this.state.messages}
+          hideForm={this.hideForm}
+        />
+        <MessageList
+          messages={this.state.messages}
+          onChange={this.onChange}
+          newState={this.newState}
+          patchMessage={this.patchMessage}
+        />
+      </div>
     )
   }
 }
